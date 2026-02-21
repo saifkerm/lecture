@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { getRamadanDay, getRamadanPhase, getSuggestedJuzId } from "../lib/ramadan";
+import {
+  getCurrentRamadanDay,
+  getCurrentRamadanPhase,
+  getRamadanDay,
+  getRamadanPhase,
+  getSuggestedJuzId
+} from "../lib/ramadan";
 
 describe("ramadan helpers", () => {
   it("calcule le jour 1 correctement", () => {
@@ -32,5 +38,17 @@ describe("ramadan helpers", () => {
     expect(getRamadanPhase("2026-02-18", new Date(2026, 1, 17, 12, 0, 0))).toBe("before");
     expect(getRamadanPhase("2026-02-18", new Date(2026, 1, 20, 12, 0, 0))).toBe("during");
     expect(getRamadanPhase("2026-02-18", new Date(2026, 2, 25, 12, 0, 0))).toBe("after");
+  });
+
+  it("calcule le jour courant de Ramadan via calendrier islamique", () => {
+    expect(getCurrentRamadanDay(new Date("2026-02-18T12:00:00Z"), "UTC")).toBe(1);
+    expect(getCurrentRamadanDay(new Date("2026-03-19T12:00:00Z"), "UTC")).toBe(30);
+    expect(getCurrentRamadanDay(new Date("2026-02-17T12:00:00Z"), "UTC")).toBeNull();
+  });
+
+  it("détermine la phase courante via calendrier islamique", () => {
+    expect(getCurrentRamadanPhase(new Date("2026-02-17T12:00:00Z"), "UTC")).toBe("before");
+    expect(getCurrentRamadanPhase(new Date("2026-02-18T12:00:00Z"), "UTC")).toBe("during");
+    expect(getCurrentRamadanPhase(new Date("2026-03-20T12:00:00Z"), "UTC")).toBe("after");
   });
 });

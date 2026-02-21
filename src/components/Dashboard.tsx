@@ -11,7 +11,7 @@ type DashboardProps = {
 
 function phaseMessage(phase: RamadanPhase, ramadanDay: number | null, suggestedJuzId: number | null): string {
   if (phase === "before") {
-    return "Ramadan n'a pas encore commencé. Ajustez la date de début si nécessaire.";
+    return "Ramadan n'a pas encore commencé dans votre fuseau horaire.";
   }
 
   if (phase === "after") {
@@ -22,7 +22,7 @@ function phaseMessage(phase: RamadanPhase, ramadanDay: number | null, suggestedJ
     return `Aujourd'hui: Jour ${ramadanDay} - Partie recommandée: ${suggestedJuzId}.`;
   }
 
-  return "Configurez votre date de début de Ramadan pour recevoir la recommandation du jour.";
+  return "Impossible de déterminer le jour de Ramadan automatiquement sur cet appareil.";
 }
 
 export function Dashboard({

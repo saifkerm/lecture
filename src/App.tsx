@@ -11,7 +11,7 @@ import {
   pickSuggestedJuzId,
   toLocalDateKey
 } from "./lib/progress";
-import { getRamadanDay, getRamadanPhase, getSuggestedJuzId } from "./lib/ramadan";
+import { getCurrentRamadanDay, getCurrentRamadanPhase } from "./lib/ramadan";
 import { loadState, saveState } from "./lib/storage";
 import type { AppState, PlaybackMode, RecitationLog } from "./types/app";
 
@@ -36,11 +36,9 @@ export default function App(): JSX.Element {
 
   const now = new Date();
 
-  const ramadanDay = getRamadanDay(state.settings.ramadanStartDateISO, now);
-  const phase = getRamadanPhase(state.settings.ramadanStartDateISO, now);
-  const rawSuggestedJuzId = getSuggestedJuzId(ramadanDay);
-  const suggestedJuzId =
-    phase === "during" ? pickSuggestedJuzId(rawSuggestedJuzId, state.completedJuzIds) : null;
+  const ramadanDay = getCurrentRamadanDay(now);
+  const phase = getCurrentRamadanPhase(now);
+  const suggestedJuzId = phase === "during" ? pickSuggestedJuzId(state.completedJuzIds) : null;
 
   const progress = computeProgress(state.completedJuzIds.length);
   const streak = computeStreak(state.logs, now);

@@ -102,27 +102,21 @@ export function getLastCompletionISO(logs: RecitationLog[], juzId: number): stri
   return relevant[0]?.completedAtISO;
 }
 
-export function pickSuggestedJuzId(
-  baseSuggestedJuzId: number | null,
-  completedJuzIds: number[]
-): number | null {
-  const completedSet = new Set(
-    completedJuzIds.filter((id) => Number.isInteger(id) && id >= 1 && id <= TOTAL_JUZ)
-  );
+export function pickSuggestedJuzId(completedJuzIds: number[]): number | null {
+  const sanitizedCompleted = completedJuzIds
+    .filter((id) => Number.isInteger(id) && id >= 1 && id <= TOTAL_JUZ)
+    .sort((a, b) => a - b);
+  const completedSet = new Set(sanitizedCompleted);
 
   if (completedSet.size >= TOTAL_JUZ) {
     return null;
   }
 
-  if (baseSuggestedJuzId && baseSuggestedJuzId >= 1 && baseSuggestedJuzId <= TOTAL_JUZ) {
-    if (!completedSet.has(baseSuggestedJuzId)) {
-      return baseSuggestedJuzId;
-    }
-
-    for (let id = baseSuggestedJuzId + 1; id <= TOTAL_JUZ; id += 1) {
-      if (!completedSet.has(id)) {
-        return id;
-      }
+  const lastCompleted = sanitizedCompleted[sanitizedCompleted.length - 1];
+  if (typeof lastCompleted === "number") {
+    const nextAfterLastCompleted = lastCompleted + 1;
+    if (nextAfterLastCompleted >= 1 && nextAfterLastCompleted <= TOTAL_JUZ) {
+      return nextAfterLastCompleted;
     }
   }
 

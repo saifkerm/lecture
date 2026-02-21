@@ -43,16 +43,20 @@ describe("progress helpers", () => {
     expect(computeWeeklyProgress(logs, now, 4)).toEqual({ count: 4, target: 4, met: true });
   });
 
-  it("propose la partie suivante si la partie suggérée est déjà terminée", () => {
-    expect(pickSuggestedJuzId(2, [1, 2])).toBe(3);
+  it("propose la partie suivante de la dernière terminée", () => {
+    expect(pickSuggestedJuzId([1, 2, 3])).toBe(4);
   });
 
-  it("retombe sur la première non terminée si la suggestion dépasse les complétions", () => {
-    expect(pickSuggestedJuzId(30, [1, 2, 30])).toBe(3);
+  it("retombe sur la première non terminée quand la dernière est 30", () => {
+    expect(pickSuggestedJuzId([1, 2, 30])).toBe(3);
+  });
+
+  it("propose 1 quand aucune partie n'est terminée", () => {
+    expect(pickSuggestedJuzId([])).toBe(1);
   });
 
   it("renvoie null si tout est terminé", () => {
     const completed = Array.from({ length: 30 }, (_, index) => index + 1);
-    expect(pickSuggestedJuzId(5, completed)).toBeNull();
+    expect(pickSuggestedJuzId(completed)).toBeNull();
   });
 });
