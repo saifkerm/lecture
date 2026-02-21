@@ -137,7 +137,7 @@ describe("App integration", () => {
     expect(loadState().audio.byJuzId[2]).toBeUndefined();
   });
 
-  it("affiche le fallback en erreur et ne crée pas de reprise en mode externe", async () => {
+  it("affiche le fallback en erreur et conserve le mode source locale", async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -145,8 +145,10 @@ describe("App integration", () => {
     const audio = screen.getByTestId("global-audio");
     fireEvent.error(audio);
 
-    expect(screen.getAllByText(/Lecture intégrée indisponible/i).length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByRole("link", { name: /^Ouvrir la source de la partie 3$/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Lecture indisponible/i).length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByLabelText(/^Source locale de la partie 3$/i)
+    ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: /^Marquer la partie 3 comme terminée$/i }));
     expect(loadState().audio.byJuzId[3]).toBeUndefined();

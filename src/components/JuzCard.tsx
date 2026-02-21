@@ -96,19 +96,13 @@ export function JuzCard({
         </button>
       </div>
 
-      <a
-        href={juz.url}
-        className="source-link"
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`Ouvrir la source de la partie ${juz.id}`}
-      >
-        Ouvrir la source
-      </a>
+      <p className="source-local" aria-label={`Source locale de la partie ${juz.id}`}>
+        Source locale disponible
+      </p>
 
       {hasAudioError ? (
         <p className="audio-error">
-          Lecture intégrée indisponible pour cette partie. Utilisez le lien externe ci-dessus.
+          Lecture indisponible pour cette partie. Réessayez puis vérifiez le cache de l'application.
         </p>
       ) : null}
     </article>

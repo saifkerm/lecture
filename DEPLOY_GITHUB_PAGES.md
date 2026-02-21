@@ -15,8 +15,14 @@
 
 ## 3) Lancer le premier déploiement
 
-1. Fais un push sur `main` (ou `master`), ou lance le workflow manuellement depuis `Actions`.
-2. Attends la fin du job `Deploy to GitHub Pages`.
+1. Prépare les 30 audios locaux (voir `AUDIO_LOCAL_SETUP.md`):
+   - `npm run audio:prepare`
+   - `npm run audio:check`
+2. Fais un push sur `main` (ou `master`), ou lance le workflow manuellement depuis `Actions`.
+3. Attends la fin du job `Deploy to GitHub Pages`.
+
+Le workflow exécute `npm run audio:check` avant le build. Si les 30 fichiers MP3 ne sont pas
+présents dans `public/audio`, le déploiement est bloqué.
 
 ## 4) URL de ton app
 

@@ -344,11 +344,8 @@ export function GlobalAudioPlayer({
 
       {status === "error" ? (
         <p className="audio-error">
-          Lecture intégrée indisponible pour cette partie. Utilisez{" "}
-          <a href={activeJuz.url} target="_blank" rel="noreferrer">
-            la source externe
-          </a>
-          .
+          Lecture indisponible pour cette partie. Réessayez puis vérifiez votre connexion et le
+          cache de l'application.
         </p>
       ) : null}
     </section>

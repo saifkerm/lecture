@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "audio:prepare": "node scripts/prepare_audio.mjs",
+    "audio:check": "node scripts/check_audio_budget.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",
