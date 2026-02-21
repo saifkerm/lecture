@@ -1,0 +1,22 @@
+{
+  "name": "Suivi Ramadan - 30 Parties",
+  "short_name": "Suivi Ramadan",
+  "description": "Suivi des récitations quotidiennes des 30 parties du Coran.",
+  "theme_color": "#123524",
+  "background_color": "#f7f4e9",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
