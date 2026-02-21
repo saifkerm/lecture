@@ -40,12 +40,26 @@ export function JuzCard({
   onResume,
   onComplete,
 }: JuzCardProps): JSX.Element {
-  let statusLabel = "à faire";
+  const canResume = !isCompleted && hasResume;
+
+  let statusLabel = "prête";
   if (isCompleted) {
     statusLabel = "terminée";
   } else if (isActive) {
     statusLabel = "en cours";
+  } else if (canResume) {
+    statusLabel = "reprise disponible";
   }
+
+  const primaryAction = canResume ? () => onResume(juz.id) : () => onSelect(juz.id);
+  const primaryLabel = canResume
+    ? `Reprendre${resumeLabel ? ` à ${resumeLabel}` : ""}`
+    : isCompleted
+      ? "Réécouter"
+      : "Écouter";
+  const primaryAriaLabel = canResume
+    ? `Reprendre la partie ${juz.id} à ${resumeLabel ?? "la dernière position"}`
+    : `Écouter la partie ${juz.id}`;
 
   return (
     <article className={`juz-card ${isCompleted ? "done" : "pending"}`} aria-label={juz.label}>
@@ -68,36 +82,43 @@ export function JuzCard({
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => onSelect(juz.id)}
-          aria-label={`Écouter la partie ${juz.id}`}
+          onClick={primaryAction}
+          aria-label={primaryAriaLabel}
         >
-          Écouter
+          {primaryLabel}
         </button>
 
-        {!isCompleted && hasResume ? (
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => onResume(juz.id)}
-            aria-label={`Reprendre la partie ${juz.id} à ${resumeLabel ?? "la dernière position"}`}
-          >
-            Reprendre {resumeLabel ? `à ${resumeLabel}` : ""}
-          </button>
-        ) : null}
+        <div className="actions-secondary">
+          {!isCompleted && canResume ? (
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() => onSelect(juz.id)}
+              aria-label={`Écouter la partie ${juz.id}`}
+            >
+              Depuis le début
+            </button>
+          ) : null}
 
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => onComplete(juz.id, playbackMode)}
-          disabled={isCompleted}
-          aria-label={`Marquer la partie ${juz.id} comme terminée`}
-        >
-          {isCompleted ? "Déjà terminée" : "Marquer terminée"}
-        </button>
+          {!isCompleted ? (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => onComplete(juz.id, playbackMode)}
+              aria-label={`Marquer la partie ${juz.id} comme terminée`}
+            >
+              Marquer terminée
+            </button>
+          ) : (
+            <span className="status-chip status-chip-done" aria-label={`Partie ${juz.id} terminée`}>
+              Terminée
+            </span>
+          )}
+        </div>
       </div>
 
       <p className="source-local" aria-label={`Source locale de la partie ${juz.id}`}>
-        Source locale disponible
+        Audio local
       </p>
 
       {hasAudioError ? (

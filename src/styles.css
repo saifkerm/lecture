@@ -184,8 +184,11 @@ a:focus-visible {
 .btn {
   border: none;
   border-radius: 999px;
-  padding: 0.55rem 0.95rem;
+  padding: 0.48rem 0.86rem;
   min-height: 44px;
+  line-height: 1.1;
+  font-size: 0.9rem;
+  font-weight: 600;
   touch-action: manipulation;
   cursor: pointer;
   transition: transform 160ms ease, background 160ms ease;
@@ -209,6 +212,12 @@ a:focus-visible {
 .btn-secondary {
   background: #ebe9dc;
   color: #223628;
+}
+
+.btn-ghost {
+  background: #f4f2e7;
+  color: #314638;
+  border: 1px solid #d3d6c4;
 }
 
 .permission-text,
@@ -283,9 +292,9 @@ a:focus-visible {
 }
 
 .juz-card .btn {
-  min-height: 40px;
-  padding: 0.46rem 0.82rem;
-  font-size: 0.93rem;
+  min-height: 42px;
+  padding: 0.4rem 0.74rem;
+  font-size: 0.88rem;
 }
 
 .juz-card.done {
@@ -345,20 +354,84 @@ a:focus-visible {
 }
 
 .actions-row {
-  display: flex;
-  gap: 0.4rem;
-  flex-direction: column;
+  display: grid;
+  gap: 0.38rem;
 }
 
-.actions-row .btn {
+.actions-row > .btn {
   width: 100%;
+}
+
+.actions-secondary {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.actions-secondary .btn,
+.actions-secondary .status-chip {
+  flex: 1 1 0;
+}
+
+.actions-secondary .status-chip {
+  min-height: 42px;
+}
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.6rem;
+  border: 1px solid #cad3c4;
+  background: #f2f4ec;
+  color: #334537;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.status-chip-done {
+  border-color: #8fbf9d;
+  background: #e2f1e4;
+  color: #1b5838;
+}
+
+.status-chip-loading {
+  border-color: #d2bc80;
+  background: #f8efd8;
+  color: #6f5110;
+}
+
+.status-chip-playing {
+  border-color: #83bb9a;
+  background: #e0f2e7;
+  color: #175133;
+}
+
+.status-chip-paused {
+  border-color: #a5b9ce;
+  background: #eaf2fb;
+  color: #1a446e;
+}
+
+.status-chip-error {
+  border-color: #ce9a8f;
+  background: #f7e5e1;
+  color: #7c2514;
+}
+
+.status-chip-idle {
+  border-color: #b8c4b9;
+  background: #edf1ea;
+  color: #334537;
 }
 
 .source-local {
   margin: 0;
   color: var(--brand-2);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
+  opacity: 0.85;
 }
 
 .audio-wrap {
@@ -381,16 +454,16 @@ a:focus-visible {
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: min(1140px, calc(100% - 1rem));
-  background: #fff9ecf7;
+  width: min(1140px, calc(100% - 0.75rem));
+  background: #fff9ecfa;
   border: 1px solid #d6cba8;
   border-bottom: none;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  box-shadow: 0 -8px 30px #10241430;
-  padding: 0.7rem 0.8rem var(--player-safe-bottom);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  box-shadow: 0 -10px 28px #1024142b;
+  padding: 0.62rem 0.72rem var(--player-safe-bottom);
   display: grid;
-  gap: 0.55rem;
+  gap: 0.45rem;
   z-index: 20;
   backdrop-filter: blur(6px);
 }
@@ -398,21 +471,39 @@ a:focus-visible {
 .global-audio-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
+  align-items: flex-start;
+  gap: 0.55rem;
 }
 
-.global-audio-kicker,
-.global-audio-status {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
+.global-audio-meta {
+  min-width: 0;
+  display: grid;
+  gap: 0.18rem;
 }
 
 .global-audio-kicker {
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.global-audio-meta strong {
+  line-height: 1.2;
+}
+
+.global-audio-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.global-audio-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
 }
 
 .global-audio-player audio {
@@ -420,7 +511,27 @@ a:focus-visible {
 }
 
 .btn-icon {
-  min-width: 44px;
+  min-width: 40px;
+}
+
+.btn-close-player {
+  min-height: 40px;
+  padding: 0.36rem 0.7rem;
+}
+
+.global-audio-control {
+  accent-color: var(--brand-2);
+}
+
+@media (max-width: 399px) {
+  .global-audio-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-close-player {
+    align-self: flex-end;
+  }
 }
 
 @media (min-width: 420px) and (max-width: 699px) {
@@ -449,9 +560,9 @@ a:focus-visible {
   }
 
   .global-audio-player {
-    width: min(980px, calc(100% - 0.8rem));
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    width: min(980px, calc(100% - 0.55rem));
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
   }
 }
 
@@ -480,12 +591,16 @@ a:focus-visible {
   }
 
   .actions-row {
-    flex-direction: row;
-    flex-wrap: wrap;
+    gap: 0.46rem;
   }
 
-  .actions-row .btn {
-    width: auto;
+  .actions-row > .btn {
+    width: 100%;
+  }
+
+  .actions-secondary .btn,
+  .actions-secondary .status-chip {
+    flex: 0 1 auto;
   }
 }
 

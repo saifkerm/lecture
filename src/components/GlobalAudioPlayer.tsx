@@ -23,18 +23,34 @@ function getDuration(audio: HTMLAudioElement): number | null {
 
 function statusLabel(status: AudioSessionStatus): string {
   if (status === "loading") {
-    return "Chargement";
+    return "Chargement...";
   }
   if (status === "playing") {
-    return "Lecture en cours";
+    return "Lecture";
   }
   if (status === "paused") {
-    return "En pause";
+    return "Pause";
   }
   if (status === "error") {
-    return "Erreur de lecture";
+    return "Erreur";
   }
-  return "Inactif";
+  return "Prêt";
+}
+
+function statusHint(status: AudioSessionStatus): string {
+  if (status === "loading") {
+    return "Le flux audio est en préparation.";
+  }
+  if (status === "playing") {
+    return "Lecture en cours.";
+  }
+  if (status === "paused") {
+    return "En pause. Appuyez sur Lecture pour reprendre.";
+  }
+  if (status === "error") {
+    return "Erreur de lecture. Réessayez.";
+  }
+  return "Lecteur prêt.";
 }
 
 export function GlobalAudioPlayer({
@@ -277,17 +293,21 @@ export function GlobalAudioPlayer({
   return (
     <section className="global-audio-player" aria-label="Lecteur global">
       <div className="global-audio-head">
-        <div>
+        <div className="global-audio-meta">
           <p className="global-audio-kicker">Lecteur actif</p>
           <strong>{activeJuz.label}</strong>
-          <p className="global-audio-status">Statut: {statusLabel(status)}</p>
+          <div className="global-audio-status-row">
+            <span className={`status-chip status-chip-${status}`}>{statusLabel(status)}</span>
+            <p className="global-audio-status">{statusHint(status)}</p>
+          </div>
         </div>
-        <button type="button" className="btn btn-secondary btn-icon" onClick={onClose}>
+        <button type="button" className="btn btn-ghost btn-icon btn-close-player" onClick={onClose}>
           Fermer
         </button>
       </div>
 
       <audio
+        className="global-audio-control"
         key={activeJuz.id}
         ref={audioRef}
         controls
